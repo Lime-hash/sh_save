@@ -3,7 +3,7 @@
 #### 基本依赖
 
 ```bash
-apt update -y && apt upgrade -y && apt install curl -y && apt install wget -y && apt install cron -y && apt install nano -y
+apt update -y && apt upgrade -y && apt install curl -y && apt install wget -y && apt install cron -y && apt install nano -y && apt install git -y
 ```
 
 #### LXC重装系统
@@ -21,7 +21,7 @@ bash <(curl -sL kejilion.sh)
 #### Warp
 
 ```bash
-wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh && bash menu.sh 4
+wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh && bash menu.sh
 ```
 
 Github地址：https://gitlab.com/fscarmen/warp
@@ -48,7 +48,7 @@ bash <(wget -qO- -o- https://github.com/233boy/sing-box/raw/main/install.sh)
 
 Github地址：https://github.com/233boy/sing-box
 
-#### IP质量体检脚本
+#### IP质量体检
 
 ```bash
 bash <(curl -sL IP.Check.Place)
