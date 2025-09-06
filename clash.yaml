@@ -57,7 +57,6 @@ rules:
   - DOMAIN-SUFFIX,www.0be.net,直连
   - DOMAIN-SUFFIX,mnpc.net,直连
   - DOMAIN-SUFFIX,0be.net,直连
-  - DOMAIN-SUFFIX,,直连
   - RULE-SET,proxylite,🚀 默认代理
   - RULE-SET,ai,🤖 ChatGPT
   - RULE-SET,github_domain,👨🏿‍💻 GitHub
