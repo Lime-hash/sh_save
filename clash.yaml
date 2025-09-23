@@ -1,9 +1,10 @@
+# 全局配置
 mixed-port: 7890
 allow-lan: false
 bind-address: '*'
 mode: rule
 log-level: info
-ipv6: false
+ipv6: true
 external-controller: '127.0.0.1:9090'
 global-client-fingerprint: chrome
 keep-alive-idle: 600
@@ -12,6 +13,7 @@ profile:
   store-selected: true
   store-fake-ip: true
 
+# TUN配置
 tun:
   enable: true
   stack: mixed
@@ -20,91 +22,252 @@ tun:
   auto-redirect: false
   auto-detect-interface: false
 
+# DNS配置
 dns:
   enable: true
-  ipv6: false
-  default-nameserver: [223.5.5.5, 119.29.29.29]
+  ipv6: true
   enhanced-mode: fake-ip
+  listen: 53
   fake-ip-range: 198.18.0.1/16
-  use-hosts: true
-  nameserver: ['https://doh.pub/dns-query', 'https://dns.alidns.com/dns-query']
-  fallback: ['https://doh.dns.sb/dns-query', 'https://dns.cloudflare.com/dns-query', 'https://dns.twnic.tw/dns-query', 'tls://8.8.4.4:853']
-  fallback-filter: {geoip: true, ipcidr: [240.0.0.0/4, 0.0.0.0/32]}
+  fake-ip-filter:
+  - '*.lan'
+  - '*.localdomain'
+  - '*.example'
+  - '*.invalid'
+  - '*.localhost'
+  - '*.test'
+  - '*.local'
+  - '*.home.arpa'
+  - time.*.com
+  - time.*.gov
+  - time.*.edu.cn
+  - time.*.apple.com
+  - time1.*.com
+  - time2.*.com
+  - time3.*.com
+  - time4.*.com
+  - time5.*.com
+  - time6.*.com
+  - time7.*.com
+  - ntp.*.com
+  - ntp1.*.com
+  - ntp2.*.com
+  - ntp3.*.com
+  - ntp4.*.com
+  - ntp5.*.com
+  - ntp6.*.com
+  - ntp7.*.com
+  - '*.time.edu.cn'
+  - '*.ntp.org.cn'
+  - +.pool.ntp.org
+  - time1.cloud.tencent.com
+  - music.163.com
+  - '*.music.163.com'
+  - '*.126.net'
+  - musicapi.taihe.com
+  - music.taihe.com
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  - '*.kuwo.cn'
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - joox.com
+  - y.qq.com
+  - '*.y.qq.com'
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  - '*.xiami.com'
+  - '*.music.migu.cn'
+  - music.migu.cn
+  - '*.msftconnecttest.com'
+  - '*.msftncsi.com'
+  - msftconnecttest.com
+  - msftncsi.com
+  - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - +.srv.nintendo.net
+  - +.stun.playstation.net
+  - xbox.*.microsoft.com
+  - '*.*.xboxlive.com'
+  - +.battlenet.com.cn
+  - +.wotgame.cn
+  - +.wggames.cn
+  - +.wowsgame.cn
+  - +.wargaming.net
+  - proxy.golang.org
+  - stun.*.*
+  - stun.*.*.*
+  - +.stun.*.*
+  - +.stun.*.*.*
+  - +.stun.*.*.*.*
+  - heartbeat.belkin.com
+  - '*.linksys.com'
+  - '*.linksyssmartwifi.com'
+  - '*.router.asus.com'
+  - mesu.apple.com
+  - swscan.apple.com
+  - swquery.apple.com
+  - swdownload.apple.com
+  - swcdn.apple.com
+  - swdist.apple.com
+  - lens.l.google.com
+  - stun.l.google.com
+  - +.nflxvideo.net
+  - '*.square-enix.com'
+  - '*.finalfantasyxiv.com'
+  - '*.ffxiv.com'
+  - '*.mcdn.bilivideo.cn'
+  - WORKGROUP
+  default-nameserver:
+  - system
+  nameserver:
+  - system
+  - https://223.5.5.5/dns-query
+  - https://223.6.6.6/dns-query
+  - https://1.12.12.12/dns-query
+  - https://120.53.53.53/dns-query
+  nameserver-policy: null
+  fallback: null
+  fallback-filter: null
 
-
+# 节点信息
+# 如果不会写节点信息请使用clash_party的substore获取节点信息
 proxies:
-  - {"type":"hysteria2","name":"hy2","server":"74.113.96.196","port":48109,"password":"bac67827-a873-475c-8e72-6c34744fa2b7","skip-cert-verify":true,"tfo":false}
+  - {"name":"HK","type":"ss","server":"main-central.earthsurface.cc","port":29510,"cipher":"aes-128-gcm","password":"935ad5e3-c4f8-410b-b24e-7ca30ee0be18"}
   - {name: 直连, type: direct}
 
+# 规则分流
 proxy-groups:
-  - {name: 🚀 默认代理, type: select, proxies: [直连,"hy2"]}
-  - {name: 📹 YouTube, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🍀 Google, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🤖 ChatGPT, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 👨🏿‍💻 GitHub, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🐬 OneDrive, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🪟 Microsoft, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🎵 TikTok, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 📲 Telegram, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🎥 NETFLIX, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 💶 PayPal, type: select, proxies: [🚀 默认代理,直连]}
-  - {name: 🐟 漏网之鱼, type: select, proxies: [🚀 默认代理,直连]}
+  - {name: 代理, type: select, proxies: ["HK",直连]}
+  - {name: Microsoft, type: select, proxies: [代理,直连]}
+  - {name: Telegram, type: select, proxies: [代理,直连]}
+  - {name: 苹果服务, type: select, proxies: [代理,直连]}
+  - {name: 漏网之鱼, type: select, proxies: [代理,直连]}
 rules:
+# 私有IP域名规则
   - RULE-SET,private_ip,直连
   - RULE-SET,private_domain,直连
-  - DOMAIN-SUFFIX,qichiyu.com,🚀 默认代理
+# 域名规则
+  - DOMAIN-SUFFIX,qichiyu.com,代理
   - DOMAIN-SUFFIX,www.mnpc.net,直连
   - DOMAIN-SUFFIX,www.0be.net,直连
   - DOMAIN-SUFFIX,mnpc.net,直连
   - DOMAIN-SUFFIX,0be.net,直连
-  - RULE-SET,proxylite,🚀 默认代理
-  - RULE-SET,ai,🤖 ChatGPT
-  - RULE-SET,github_domain,👨🏿‍💻 GitHub
-  - RULE-SET,youtube_domain,📹 YouTube
-  - RULE-SET,google_domain,🍀 Google
-  - RULE-SET,onedrive_domain,🐬 OneDrive
-  - RULE-SET,microsoft_domain,🪟 Microsoft
+  - DOMAIN-SUFFIX,googleapis.cn,代理
+  - DOMAIN-SUFFIX,gstatic.com,代理
+#Talkatone-rules
+  - DOMAIN-SUFFIX,aax.amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,aax-fe.amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,aax-fe-sin.amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,ads.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,ads.pubmatic.com,REJECT
+  - DOMAIN-SUFFIX,adsappier.com,REJECT
+  - DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,app-analytics-services.com,REJECT
+  - DOMAIN-SUFFIX,appier.net,REJECT
+  - DOMAIN-SUFFIX,appiersig.com,REJECT
+  - DOMAIN-SUFFIX,au.w.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,b.de.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,bidder.criteo.com,REJECT
+  - DOMAIN-SUFFIX,c.amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,cdn.liftoff-creatives.io,REJECT
+  - DOMAIN-SUFFIX,cdn.mobilefuse.com,REJECT
+  - DOMAIN-SUFFIX,cdn2.inner-active.mobi,REJECT
+  - DOMAIN-SUFFIX,cdn-f.adsmoloco.com,REJECT
+  - DOMAIN-SUFFIX,config.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,cr.adsappier.com,REJECT
+  - DOMAIN-SUFFIX,criteo.com,REJECT
+  - DOMAIN-SUFFIX,dspbeacons.ihasdsp.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,dspbeacons.old.ihasdsp.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,ep7.facebook.com,REJECT
+  - DOMAIN-SUFFIX,et-eus.w.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,ets-ap-southeast-1.track.smaato.net,REJECT
+  - DOMAIN-SUFFIX,exchange-b-events.inner-active.mobi,REJECT
+  - DOMAIN-SUFFIX,firebaseinstallations.googleapis.com,REJECT
+  - DOMAIN-SUFFIX,firebaselogging-pa.googleapis.com,REJECT
+  - DOMAIN-SUFFIX,firebaseremoteconfig.googleapis.com,REJECT
+  - DOMAIN-SUFFIX,firebase-settings.crashlytics.com,REJECT
+  - DOMAIN-SUFFIX,fundingchoicesmessages.google.com,REJECT
+  - DOMAIN-SUFFIX,googleads.g.doubleclick.net,REJECT
+  - DOMAIN-SUFFIX,googleads.g.doubleclick-cn.net,REJECT
+  - DOMAIN-SUFFIX,googlesyndication.com,REJECT
+  - DOMAIN-SUFFIX,gum.criteo.com,REJECT
+  - DOMAIN-SUFFIX,i.l.inmobicdn.net,REJECT
+  - DOMAIN-SUFFIX,i.l-dsp.inmobicdn.net,REJECT
+  - DOMAIN-SUFFIX,ic.de.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,impression.link,REJECT
+  - DOMAIN-SUFFIX,impression-asia.liftoff.io,REJECT
+  - DOMAIN-SUFFIX,ins.track.tappx.com,REJECT
+  - DOMAIN-SUFFIX,lh3.googleadsserving.cn,REJECT
+  - DOMAIN-SUFFIX,mads.amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,mfx.mobilefuse.com,REJECT
+  - DOMAIN-SUFFIX,mt-usw.appiersig.com,REJECT
+  - DOMAIN-SUFFIX,pagead2.googlesyndication-cn.com,REJECT
+  - DOMAIN-SUFFIX,pubmatic.com,REJECT
+  - DOMAIN-SUFFIX,sdk-dnt.ad.smaato.net,REJECT
+  - DOMAIN-SUFFIX,sdk-events.inner-active.mobi,REJECT
+  - DOMAIN-SUFFIX,sdk-files.smaato.net,REJECT
+  - DOMAIN-SUFFIX,sdk-hb-cfg.smaato.net,REJECT
+  - DOMAIN-SUFFIX,skadnetworks.fyber.com,REJECT
+  - DOMAIN-SUFFIX,smaato.net,REJECT
+  - DOMAIN-SUFFIX,ssp.api.tappx.com,REJECT
+  - DOMAIN-SUFFIX,supply.inmobicdn.net,REJECT
+  - DOMAIN-SUFFIX,taboola.com,REJECT
+  - DOMAIN-SUFFIX,tappx.com,REJECT
+  - DOMAIN-SUFFIX,tpc.googlesyndication-cn.com,REJECT
+  - DOMAIN-SUFFIX,tr-asia.adsmoloco.com,REJECT
+  - DOMAIN-SUFFIX,view.adjust.com,REJECT
+  - DOMAIN-SUFFIX,vst.c.appier.net,REJECT
+  - DOMAIN-SUFFIX,wv.inner-active.mobi,REJECT
+  - DOMAIN-SUFFIX,www.googletagservices-cn.com,REJECT
+  - DOMAIN-SUFFIX,agkn.com,DIRECT
+  - DOMAIN-SUFFIX,cohere.com,DIRECT
+  - DOMAIN-SUFFIX,crashlytics.com,DIRECT
+  - DOMAIN-SUFFIX,inmobi.com,DIRECT
+  - DOMAIN-SUFFIX,inner-active.mobi,DIRECT
+  - DOMAIN-SUFFIX,ip-api.com,DIRECT
+  - DOMAIN-SUFFIX,kochava.com,DIRECT
+  - DOMAIN-SUFFIX,mobilefuse.com,DIRECT
+  - DOMAIN-SUFFIX,talkatone.com,DIRECT
+  - IP-CIDR,205.164.56.0/24,DIRECT,no-resolve
+  - IP-CIDR,216.172.154.0/24,DIRECT,no-resolve
+  - IP-CIDR,50.117.27.0/24,DIRECT,no-resolve
+  - IP-CIDR,63.251.124.0/24,DIRECT,no-resolve
+  - IP-CIDR,69.46.75.0/24,DIRECT,no-resolve
+# 规则-请保持此规则在漏网之鱼的上方
+  - RULE-SET,proxylite,代理,no-resolve
+  - RULE-SET,microsoft_domain,Microsoft
   - RULE-SET,apple_domain,直连
-  - RULE-SET,tiktok_domain,🎵 TikTok
-  - RULE-SET,telegram_domain,📲 Telegram
-  - RULE-SET,netflix_domain,🎥 NETFLIX
-  - RULE-SET,paypal_domain,💶 PayPal
-  - RULE-SET,apple_ip,直连,no-resolve
-  - RULE-SET,google_ip,🍀 Google,no-resolve
-  - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
-  - RULE-SET,telegram_ip,📲 Telegram,no-resolve
-  - RULE-SET,geolocation-!cn,🚀 默认代理
+  - RULE-SET,telegram_domain,Telegram,no-resolve
+  - RULE-SET,apple_ip,苹果服务,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,geolocation-!cn,代理
   - RULE-SET,cn_domain,直连
   - RULE-SET,cn_ip,直连
-  - MATCH,🐟 漏网之鱼
+# 其他
+  - MATCH,漏网之鱼
 
 
 # 规则集
 rule-anchor:
   ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
-  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
-  class: &class {type: http, interval: 86400, behavior: classical, format: text}
+  domain: &domain {type: http, interval: 86400, behavior: domain， format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical， format: text}
 rule-providers: 
   private_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
   proxylite: { <<: *class, url: "https://fastgit.cc/https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/proxy.list"}
   ai: {  <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs" }
-  youtube_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
-  google_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
-  github_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
   telegram_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
-  netflix_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"}
-  paypal_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs"}
-  onedrive_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/onedrive.mrs"}
   microsoft_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
   apple_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}
-  speedtest_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}
-  tiktok_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
   geolocation-!cn: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
   cn_domain: { <<: *domain, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   
   private_ip: {<<: *ip, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"}
   cn_ip: { <<: *ip, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
-  google_ip: { <<: *ip, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   telegram_ip: { <<: *ip, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
-  netflix_ip: { <<: *ip, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}
   apple_ip: {<<: *ip, url: "https://fastgit.cc/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
