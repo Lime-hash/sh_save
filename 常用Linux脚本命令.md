@@ -54,3 +54,28 @@ Github地址：https://github.com/233boy/sing-box
 bash <(curl -sL IP.Check.Place)
 ```
 
+#### v2ray-agent
+
+```bash
+wget -P /root -N --no-check-certificate "https://raw.githubusercontent.com/mack-a/v2ray-agent/master/install.sh" && chmod 700 /root/install.sh && /root/install.sh
+```
+
+Github地址：https://github.com/mack-a/v2ray-agent
+
+#### Docker
+
+```bash
+curl -fsSL https://get.docker.com | bash -s docker
+```
+
+#### Substore
+
+```dockerfile
+docker run -it -d \
+--restart=always \
+-e SUB_STORE_FRONTEND_BACKEND_PATH=/a2xmamRoZ2tzaGthZ2xkaHNna2poamdza2Q=\
+-p 127.0.0.1:3001:3001 \
+-v /etc/sub-store:/opt/app/data \
+--name sub-store \
+xream/sub-store
+```
