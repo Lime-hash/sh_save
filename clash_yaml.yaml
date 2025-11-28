@@ -171,6 +171,7 @@ proxies:
 proxy-groups:
   - name: "节点选择"
     type: "select"
+    proxies: ["Cziyun-JP-Hy2"]
     include-all: true
     interval: 300
     timeout: 3000
@@ -301,7 +302,7 @@ proxy-groups:
     hidden: false
     icon: "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/link.svg"
   - name: "全局拦截"
-    type: "select"
+    输入: "select"
     proxies: ["REJECT", "DIRECT"]
     interval: 300
     timeout: 3000
