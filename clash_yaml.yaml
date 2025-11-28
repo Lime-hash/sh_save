@@ -171,7 +171,7 @@ proxies:
 proxy-groups:
   - name: "节点选择"
     type: "select"
-    proxies: ["Cziyun-JP-Hy2"]
+    proxies: [Cziyun-JP-Hy2]
     include-all: true
     interval: 300
     timeout: 3000
@@ -350,3 +350,4 @@ rules:
   - "GEOIP,LAN,全局直连,no-resolve"
   - "GEOIP,CN,全局直连,no-resolve"
   - "MATCH,漏网之鱼"
+
